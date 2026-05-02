@@ -130,6 +130,7 @@ body::before{
   padding:60px 22px 90px;
   overflow:hidden;
 }
+@media (max-width:720px){ .hero{ padding:36px 18px 70px } }
 .hero-grid{
   display:grid; grid-template-columns: 1.05fr 1fr;
   gap:48px; align-items:center;
@@ -153,11 +154,12 @@ body::before{
 h1.title{
   font-family:'Noto Sans SC', sans-serif;
   font-weight:900;
-  font-size: clamp(56px, 9vw, 132px);
+  font-size: clamp(48px, 9vw, 132px);
   line-height:.9;
   margin:14px 0 6px;
   color:#fff;
   letter-spacing:-2px;
+  word-break: break-word;
   text-shadow:
     -2px 0 #000, 2px 0 #000, 0 -2px #000, 0 2px #000,
     6px 8px 0 #000;
@@ -205,36 +207,44 @@ h1.title .cn{
 }
 .mogu-frame{
   position:relative;
-  width:min(460px, 92%);
+  width:min(460px, 86%);
   aspect-ratio: 1/1;
+  transform: rotate(-3deg);
+  animation: bob 6s ease-in-out infinite;
+}
+.mogu-frame .mogu-img{
+  position:absolute; inset:0;
   border-radius: 28px;
   background:#000;
   border:6px solid #000;
   box-shadow: 18px 18px 0 var(--gold), 18px 18px 0 4px #000;
   overflow:hidden;
-  transform: rotate(-3deg);
-  animation: bob 6s ease-in-out infinite;
 }
 @keyframes bob{
   0%,100%{ transform: rotate(-3deg) translateY(0) }
   50%   { transform: rotate(-1deg) translateY(-12px) }
 }
-.mogu-frame img{ width:100%; height:100%; object-fit:cover; display:block }
+.mogu-frame .mogu-img img{ width:100%; height:100%; object-fit:cover; display:block }
 .mogu-stamp{
-  position:absolute;
-  top:-22px; right:-18px;
+  position:absolute; z-index:3;
+  top:-18px; right:-12px;
   background:#000; color:var(--gold);
   font-family:'Bungee', cursive; font-size:14px; letter-spacing:1.2px;
   padding:10px 16px; border-radius:999px;
   border:3px solid var(--gold);
   transform: rotate(8deg);
   box-shadow: var(--shadow-sm);
+  white-space:nowrap;
 }
 .mogu-stamp.left{
   top:auto; right:auto;
-  bottom:-18px; left:-22px;
+  bottom:-14px; left:-12px;
   transform: rotate(-10deg);
   background:var(--gold); color:#000; border-color:#000;
+}
+@media (max-width:520px){
+  .mogu-stamp{ font-size:12px; padding:8px 12px; top:-14px; right:-6px }
+  .mogu-stamp.left{ bottom:-10px; left:-6px }
 }
 
 /* CA bar */
@@ -244,11 +254,15 @@ h1.title .cn{
   border:3px solid #000;
   border-radius:18px;
   padding:14px 16px;
-  display:flex; align-items:center; gap:12px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 14px;
   box-shadow: var(--shadow-sm);
   max-width:680px;
+}
+@media (max-width:520px){
+  .ca{ padding:12px; font-size:12px; gap:10px }
+  .ca .value{ flex-basis:100%; order:3 }
 }
 .ca .label{
   flex-shrink:0;
@@ -295,14 +309,17 @@ h1.title .cn{
 
 /* SECTION */
 section{ position:relative; padding:80px 0; z-index:2 }
+@media (max-width:720px){ section{ padding:56px 0 } }
+@media (max-width:520px){ section{ padding:44px 0 } }
 .section-title{
   font-family:'Bungee', cursive;
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(30px, 5vw, 64px);
   color:#fff;
   text-align:center;
   letter-spacing:1px;
   margin:0 0 6px;
   text-shadow: 5px 5px 0 #000;
+  padding: 0 12px;
 }
 .section-sub{
   font-family:'ZCOOL KuaiLe', cursive;
@@ -370,6 +387,10 @@ section{ position:relative; padding:80px 0; z-index:2 }
   border-right:20px solid #fff;
   z-index:1;
 }
+@media (max-width:880px){
+  .about .speech{ box-shadow: 6px 6px 0 var(--red); padding:20px }
+  .about .speech::after, .about .speech::before{ display:none }
+}
 
 /* MEMES gallery */
 .memes-grid{
@@ -377,8 +398,8 @@ section{ position:relative; padding:80px 0; z-index:2 }
   grid-template-columns: repeat(4, 1fr);
   gap:18px;
 }
-@media (max-width:980px){ .memes-grid{ grid-template-columns: repeat(2, 1fr) } }
-@media (max-width:520px){ .memes-grid{ grid-template-columns: 1fr } }
+@media (max-width:980px){ .memes-grid{ grid-template-columns: repeat(3, 1fr) } }
+@media (max-width:720px){ .memes-grid{ grid-template-columns: repeat(2, 1fr); gap:12px } }
 .meme-card{
   position:relative;
   aspect-ratio: 1/1;
@@ -612,9 +633,11 @@ footer .disc{
 
     <div class="hero-card">
       <div class="mogu-frame">
+        <div class="mogu-img">
+          <img src="mog.jpeg" alt="Mogutou — the Mushroom Head" />
+        </div>
         <span class="mogu-stamp">$MOGU</span>
         <span class="mogu-stamp left">SINCE 2014</span>
-        <img src="mog.jpeg" alt="Mogutou — the Mushroom Head" />
       </div>
     </div>
   </div>
@@ -623,15 +646,17 @@ footer .disc{
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>蘑菇头</span><span class="star">★</span>
-    <span>MUSHROOM HEAD</span><span class="star">★</span>
-    <span>9,000,000,000 USES</span><span class="star">★</span>
-    <span>900M DOWNLOADS</span><span class="star">★</span>
     <span>$MOGUTOU</span><span class="star">★</span>
-    <span>蘑菇头</span><span class="star">★</span>
-    <span>MUSHROOM HEAD</span><span class="star">★</span>
-    <span>9,000,000,000 USES</span><span class="star">★</span>
-    <span>900M DOWNLOADS</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
+    <span>$MOGUTOU</span><span class="star">★</span>
     <span>$MOGUTOU</span><span class="star">★</span>
   </div>
 </div>
